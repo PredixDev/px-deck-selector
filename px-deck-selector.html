@@ -92,14 +92,38 @@ Element which displays a dropdown of decks and returns the url for the selected 
         },
 
         _toggleDropdown: function() {
-            this.isDropdownOpen = !this.isDropdownOpen;
-            this.toggleAttribute('hidden', !this.isDropdownOpen, this.$.dropdown);
+
+          var el = this.$.dropdown;
+          var isDropdownOpen = el.hasAttribute('hidden') ? false : true;
+
+          this.toggleAttribute('hidden', isDropdownOpen, this.$.dropdown);
+          if (!el.hasAttribute('hidden')) {
+            document.addEventListener('mouseup', this.closeMenu, false);
+            document.ddMenu = this;
+          }
+          else {
+            document.removeEventListener('mouseup', this.closeMenu, false);
+            document.ddMenu = null;
+          }
         },
 
         _selectDeck: function(e) {
             this.set('selectedDeck', e.model.deck);
             this._toggleDropdown();
+        },
+      /**
+       * Close deck menu when click outside the menu.
+       *
+       */
+      closeMenu: function (e) {
+
+        var targetEl = this.ddMenu.$.dropdown;
+        if (!this.ddMenu.contains(e.target)) {
+          targetEl.setAttribute('hidden', true);
+          document.removeEventListener('mouseup', this.ddMenu.closeMenu);
+          document.ddMenu = null;
         }
+      }
 
     });
 </script>
