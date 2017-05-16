@@ -1,10 +1,8 @@
-v2.0.0-prerelease-1
-==================
-* pull in fix from v1.6.9
-
-v2.0.0-prerelease
+v2.0.0
 ==================
 * updated dependencies for design refresh
+* pull in fix from v1.6.9
+* added new icons
 
 v1.6.9
 ==================
