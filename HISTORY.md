@@ -3,6 +3,7 @@ v2.0.0
 * updated dependencies for design refresh
 * pull in fix from v1.6.9
 * added new icons
+* component redesign
 
 v1.6.9
 ==================

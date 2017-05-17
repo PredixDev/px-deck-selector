@@ -2,24 +2,25 @@
 <link rel="import" href="../px-polymer-font-awesome/px-icon-set.html" />
 
 <!--
-Element which displays a dropdown of decks and returns the url for the selected deck.
 
-Use the px-deck-selector element to enable your users to choose a deck from a drop-down list. Set the decks using an array of objects with `name` and `url` properties. When a user selects a new deck, the `selected-deck` property will be updated and the `selected-deck-changed` event will be fired.
-
-##### Usage
+### Usage
 
     <px-deck-selector decks="[{...}]" selected-deck="{...}"></px-deck-selector>
 
 ### Styling
 The following custom properties are available for styling:
 
-Custom property | Description | Default
-----------------|-------------|----------
-`--px-deck-selector-border-color` | Border color for the dropdown | `$gray5`
-`--px-deck-selector-background-color` | Background color for the dropdown | `$gray1`
-`--px-deck-selector-text-color` | Text color | `$gray9`
-`--px-deck-selector-hover-background-color` | Hover color for the dropdown items | `$select-blue-hover`
-`--px-deck-selector-hover-text-color` | Text color for hovered dropdown items | `$white`
+Custom property | Description
+----------------|-------------
+`--px-deck-selector-border-color` | Border color for the dropdown
+`--px-deck-selector-shadow-color` | Shadow color for the dropdown
+`--px-deck-selector-background-color` | Background color for the dropdown
+`--px-deck-selector-text-color` | Text color for the dropdown items
+`--px-deck-selector-background-color--hover` | Background color for the dropdown items when hovered
+`--px-deck-selector-text-color--hover` | Text color for the dropdown items when hovered
+`--px-deck-selector-background-color--selected` | Background color for the dropdown item that is selected
+`--px-deck-selector-text-color--selected` | Text color for the dropdown item that is selected
+`--px-deck-selector-li-border` | Border color for the separator between decks and actions
 
 
 @demo demo.html
@@ -31,19 +32,19 @@ Custom property | Description | Default
   <template>
     <style include="px-deck-selector-styles"></style>
 
-    <div class="dropdown-text" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
-      <span class="epsilon">{{selectedDeck.name}}</span>
+    <div class="dropdown-text actionable actionable--action" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
+      <span>{{selectedDeck.name}}</span>
       <iron-icon icon="px:chevron-down"></iron-icon>
     </div>
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
       <template is="dom-repeat" items="{{decks}}" as="deck">
         <li on-click="_selectDeck">
-          <div class="u-p--">{{deck.name}}</div>
+          <div>{{deck.name}}</div>
         </li>
       </template>
       <template is="dom-if" if="{{configOptions.edit}}">
         <li on-click="_triggerDeckEvent" class="deck-editor">
-          <div class="u-p--">{{configOptions.actionType}}</div>
+          <div>{{configOptions.actionType}}</div>
         </li>
       </template>
     </ul>
@@ -125,6 +126,11 @@ Custom property | Description | Default
       if (this._isDecks && (this.selectedDeck == null || this.selectedDeck.constructor === Object)) {
         this.set('selectedDeck', this.decks[0]);
       }
+      this.async(function() {
+        Polymer.dom(this.$.dropdown).querySelectorAll('div').forEach(function(item) {
+          this.toggleClass('selected', item.innerText === this.selectedDeck.name, item);
+        }.bind(this));
+      }, 5);
     },
 
     _toggleDropdown: function(e) {
@@ -141,6 +147,10 @@ Custom property | Description | Default
 
     _selectDeck: function(e) {
       this.set('selectedDeck', e.model.deck);
+      Polymer.dom(this.$.dropdown).querySelectorAll('div').forEach(function(item) {
+        this.toggleClass('selected', false, item);
+      }.bind(this));
+      this.toggleClass('selected', true, e.target);
       this._toggleDropdown(false);
     },
 
@@ -175,10 +185,8 @@ Custom property | Description | Default
         document.addEventListener('mouseup', self.evtHandler = function(e) {
           self._closeMenu(e, el)
         }, false);
-        //document.ddMenu = this;
       } else {
         document.removeEventListener('mouseup', self.evtHandler, false);
-        //document.ddMenu = null;
       }
     }
     /**

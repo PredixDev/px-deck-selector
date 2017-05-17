@@ -25,7 +25,7 @@
     <!-- Header -->
     <px-demo-header
         module-name="px-deck-selector"
-        description="Element which displays a dropdown of decks and returns the url for the selected deck. Use the px-deck-selector element to enable your users to choose a deck from a drop-down list. Set the decks using an array of objects with "name" and "url" properties. When a user selects a new deck, the "selected-deck" property will be updated and the "selected-deck-changed" event will be fired.">
+        description='Element which displays a dropdown of decks and returns the url for the selected deck. Set the decks using an array of objects with "name" and "url" properties. When a user selects a new deck, the "selected-deck" property will be updated and the "selected-deck-changed" event will be fired.'>
     </px-demo-header>
 
     <!-- Interactive -->
@@ -103,12 +103,12 @@
         type: Array,
         value: function(){
           return [
-            { 
+            {
               configName: "Basic",
-              configReset: true 
+              configReset: true
             },
 
-            { 
+            {
               configName: "No config option",
               configOptions: "",
               configHideProps: ["configOptions"]
