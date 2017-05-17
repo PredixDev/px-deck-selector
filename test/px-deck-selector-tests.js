@@ -30,14 +30,14 @@ function runCustomTests() {
     });
 
     test('First deck is selected by default', function() {
-      var label = Polymer.dom(fixture.root).querySelector('.dropdown-text').innerText;
+      var label = Polymer.dom(fixture.root).querySelector('.dropdown-text').innerText.trim();
       assert.equal(fixture.selectedDeck.name, 'First Deck');
       assert.equal(label, 'First Deck');
     });
 
     test('Deck can be selected programmatically', function() {
       fixture.set('selectedDeck', {"name": "Second Deck","url": "/deck2"});
-      var label = Polymer.dom(fixture.root).querySelector('.dropdown-text').innerText;
+      var label = Polymer.dom(fixture.root).querySelector('.dropdown-text').innerText.trim();
       assert.equal(fixture.selectedDeck.name, 'Second Deck');
       assert.equal(label, 'Second Deck');
     });
