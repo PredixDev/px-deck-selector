@@ -42,6 +42,7 @@ iron-icon {
   display: flex;
   flex-direction: row;
   align-items: center;
+  transition: color 0.4s;
   & span {
     max-width: 16rem;
     overflow: hidden;

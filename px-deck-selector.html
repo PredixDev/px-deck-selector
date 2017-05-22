@@ -166,7 +166,18 @@ Custom property | Description
      * Called when the user clicks outside of the menu.
      * */
     _closeMenu: function(e, el) {
-      if (!el.contains(e.target)) {
+      var evt = Polymer.dom(e),
+          path = evt.path,
+          length = path.length,
+          isDropdownText = false,
+          i;
+      for(i=0; i<length; i++) {
+        if(path[i].classList && path[i].classList.contains('dropdown-text')) {
+          isDropdownText = true;
+          break;
+        }
+      }
+      if (!el.contains(e.target) && !isDropdownText) {
         this._isDropdownOpen = false;
         el.setAttribute('hidden', true);
         document.removeEventListener('mouseup', this.evtHandler, false);
