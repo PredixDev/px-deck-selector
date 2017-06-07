@@ -61,7 +61,11 @@ iron-icon {
   background-color: var(--px-deck-selector-background-color, white);
   box-shadow: 0 1px 3px 0 var(--px-deck-selector-shadow-color, rgba(black, 0.2));
   li div {
-    padding: $inuit-base-font-size / 2 $inuit-base-font-size;
+    padding-left: $inuit-base-spacing-unit;
+    padding-right: $inuit-base-spacing-unit;
+    height: $inuit-base-spacing-unit--huge;
+    display: flex;
+    align-items: center;
     color: var(--px-deck-selector-text-color, black);
     &:hover {
       color: var(--px-deck-selector-text-color--hover, black);
