@@ -64,8 +64,18 @@ iron-icon {
     padding-left: $inuit-base-spacing-unit;
     padding-right: $inuit-base-spacing-unit;
     height: $inuit-base-spacing-unit--huge;
-    display: flex;
-    align-items: center;
+    line-height: $inuit-base-spacing-unit--huge;
+    vertical-align: middle;
+
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    // min-width: 0;
+    // display: flex;
+    // align-items: center;
+
     color: var(--px-deck-selector-text-color, black);
     &:hover {
       color: var(--px-deck-selector-text-color--hover, black);
