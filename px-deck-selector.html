@@ -39,12 +39,16 @@ Custom property | Description
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
       <template is="dom-repeat" items="{{decks}}" as="deck">
         <li on-click="_selectDeck">
-          <div>{{deck.name}}</div>
+          <div class="dropdown-menu__option">
+            <span class="dropdown-menu__item" title="{{deck.name}}">{{deck.name}}</span>
+          </div>
         </li>
       </template>
       <template is="dom-if" if="{{configOptions.edit}}">
-        <li on-click="_triggerDeckEvent" class="deck-editor">
-          <div>{{configOptions.actionType}}</div>
+        <li on-click="_triggerDeckEvent">
+          <div class="dropdown-menu__option dropdown-menu__item--deck-editor">
+            <span class="dropdown-menu__item" title="{{configOptions.actionType}}">{{configOptions.actionType}}</span>
+          </div>
         </li>
       </template>
     </ul>

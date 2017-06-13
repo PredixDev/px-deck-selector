@@ -60,35 +60,38 @@ iron-icon {
   border: 1px solid var(--px-deck-selector-border-color, lightgray);
   background-color: var(--px-deck-selector-background-color, white);
   box-shadow: 0 1px 3px 0 var(--px-deck-selector-shadow-color, rgba(black, 0.2));
-  li div {
-    padding-left: $inuit-base-spacing-unit;
-    padding-right: $inuit-base-spacing-unit;
-    height: $inuit-base-spacing-unit--huge;
-    line-height: $inuit-base-spacing-unit--huge;
-    vertical-align: middle;
+}
 
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 
-    // min-width: 0;
-    // display: flex;
-    // align-items: center;
+.dropdown-menu__option {
+  padding-left: $inuit-base-spacing-unit;
+  padding-right: $inuit-base-spacing-unit;
+  height: $inuit-base-spacing-unit--huge;
 
-    color: var(--px-deck-selector-text-color, black);
-    &:hover {
-      color: var(--px-deck-selector-text-color--hover, black);
-      background-color: var(--px-deck-selector-background-color--hover, lightgray);
-    }
-    &.selected {
-      color: var(--px-deck-selector-text-color--selected, white);
-      background-color: var(--px-deck-selector-background-color--selected, blue);
-    }
+  display: flex;
+  align-items: center;
+
+  color: var(--px-deck-selector-text-color, black);
+  &:hover {
+    color: var(--px-deck-selector-text-color--hover, black);
+    background-color: var(--px-deck-selector-background-color--hover, lightgray);
   }
-  li.deck-editor{
-    border-top: 1px solid var(--px-deck-selector-li-border, lightgray);
+  &.selected {
+    color: var(--px-deck-selector-text-color--selected, white);
+    background-color: var(--px-deck-selector-background-color--selected, blue);
   }
 }
+
+.dropdown-menu__item {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dropdown-menu__item--deck-editor {
+  border-top: 1px solid var(--px-deck-selector-li-border, lightgray);
+}
+
 
 // Trumps
