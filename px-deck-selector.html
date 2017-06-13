@@ -33,22 +33,18 @@ Custom property | Description
     <style include="px-deck-selector-styles"></style>
 
     <div class="dropdown-text actionable actionable--action" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
-      <span>{{selectedDeck.name}}</span>
+      <span title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
       <iron-icon icon="px:chevron-down"></iron-icon>
     </div>
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
       <template is="dom-repeat" items="{{decks}}" as="deck">
-        <li on-click="_selectDeck">
-          <div class="dropdown-menu__option">
-            <span class="dropdown-menu__item" title="{{deck.name}}">{{deck.name}}</span>
-          </div>
+        <li on-click="_selectDeck" class="dropdown-menu__item">
+          <span class="truncate" title="{{deck.name}}">{{deck.name}}</span>
         </li>
       </template>
       <template is="dom-if" if="{{configOptions.edit}}">
-        <li on-click="_triggerDeckEvent">
-          <div class="dropdown-menu__option dropdown-menu__item--deck-editor">
-            <span class="dropdown-menu__item" title="{{configOptions.actionType}}">{{configOptions.actionType}}</span>
-          </div>
+        <li on-click="_triggerDeckEvent" class="dropdown-menu__item dropdown-menu__item--deck-editor">
+          <span class="truncate" title="{{configOptions.actionType}}">{{configOptions.actionType}}</span>
         </li>
       </template>
     </ul>

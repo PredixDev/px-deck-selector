@@ -64,7 +64,7 @@ iron-icon {
 
 
 
-.dropdown-menu__option {
+.dropdown-menu__item {
   padding-left: $inuit-base-spacing-unit;
   padding-right: $inuit-base-spacing-unit;
   height: $inuit-base-spacing-unit--huge;
@@ -83,15 +83,14 @@ iron-icon {
   }
 }
 
-.dropdown-menu__item {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
 .dropdown-menu__item--deck-editor {
   border-top: 1px solid var(--px-deck-selector-li-border, lightgray);
 }
 
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 // Trumps
