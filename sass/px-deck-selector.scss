@@ -45,8 +45,6 @@ iron-icon {
   transition: color 0.4s;
   & span {
     max-width: 16rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 
@@ -61,8 +59,6 @@ iron-icon {
   background-color: var(--px-deck-selector-background-color, white);
   box-shadow: 0 1px 3px 0 var(--px-deck-selector-shadow-color, rgba(black, 0.2));
 }
-
-
 
 .dropdown-menu__item {
   padding-left: $inuit-base-spacing-unit;
@@ -85,12 +81,6 @@ iron-icon {
 
 .dropdown-menu__item--deck-editor {
   border-top: 1px solid var(--px-deck-selector-li-border, lightgray);
-}
-
-.truncate {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 // Trumps

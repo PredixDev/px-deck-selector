@@ -33,6 +33,7 @@
     "px-theme": "^3.0.0",
     "px-starter-kit-design": "^1.0.0",
     "px-demo": "^2.0.0",
-    "px-list-bare-design": "^1.0.0"
+    "px-list-bare-design": "^1.0.0",
+    "px-helpers-design": "^1.0.0"
   }
 }

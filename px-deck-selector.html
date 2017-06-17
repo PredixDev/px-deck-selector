@@ -33,7 +33,7 @@ Custom property | Description
     <style include="px-deck-selector-styles"></style>
 
     <div class="dropdown-text actionable actionable--action" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
-      <span title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
+      <span class="truncate" title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
       <iron-icon icon="px:chevron-down"></iron-icon>
     </div>
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
