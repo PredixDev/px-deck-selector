@@ -25,7 +25,7 @@ function runCustomTests() {
   suite('Check icon size', function() {
 
     test('Dropdown icon is correct size', function() {
-      var iconEl = Polymer.dom(fixture.root).querySelector('iron-icon');
+      var iconEl = Polymer.dom(fixture.root).querySelector('px-icon');
       assert.equal(window.getComputedStyle(iconEl).width, '15px');
     });
 
