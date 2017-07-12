@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html" />
-<link rel="import" href="../px-polymer-font-awesome/px-icon-set.html" />
+<link rel="import" href="../px-icon-set/px-icon-set.html" />
+<link rel="import" href="../px-icon-set/px-icon.html" />
 
 <!--
 
@@ -34,7 +35,7 @@ Custom property | Description
 
     <div class="dropdown-text actionable actionable--action" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
       <span class="truncate" title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
-      <iron-icon icon="px:chevron-down"></iron-icon>
+      <px-icon icon="px:chevron-down"></px-icon>
     </div>
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
       <template is="dom-repeat" items="{{decks}}" as="deck">
