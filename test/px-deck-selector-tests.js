@@ -26,7 +26,7 @@ function runCustomTests() {
 
     test('Dropdown icon is correct size', function() {
       var iconEl = Polymer.dom(fixture.root).querySelector('px-icon');
-      assert.equal(window.getComputedStyle(iconEl).width, '15px');
+      assert.equal(window.getComputedStyle(iconEl).width, '16px');
     });
 
     test('First deck is selected by default', function() {
