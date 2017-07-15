@@ -35,7 +35,7 @@ Custom property | Description
 
     <div class="dropdown-text actionable actionable--action" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
       <span class="truncate" title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
-      <px-icon icon="px:chevron-down"></px-icon>
+      <px-icon icon="pxs:chevron"></px-icon>
     </div>
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
       <template is="dom-repeat" items="{{decks}}" as="deck">
