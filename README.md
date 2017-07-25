@@ -1,11 +1,11 @@
 # px-deck-selector [![Build Status](https://travis-ci.org/PredixDev/px-deck-selector.svg?branch=master)](https://travis-ci.org/PredixDev/px-deck-selector)
 
-The px-deck-selector component displays a dropdown of decks and returns the url for the selected deck.
+`Px-deck-selector` is a Predix UI component which displays a dropdown of decks and returns the url for the selected deck.
 
 
 ## Overview
 
-Use the px-deck-selector component to allow your users to choose a deck from a dropdown list. Set the decks using an array of objects with `name` and `url` properties. When a user selects a new deck, the `selected-deck-url` will be updated.
+Use the `px-deck-selector` component to allow your users to choose a deck from a dropdown list. Set the decks using an array of objects with `name` and `url` properties. When a user selects a new deck, the `selected-deck-url` will be updated.
 
 ## Usage
 
