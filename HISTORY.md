@@ -1,3 +1,7 @@
+v2.0.1
+==================
+* fix icon spacing and highlight behavior
+
 v2.0.0
 ==================
 * updated dependencies for design refresh

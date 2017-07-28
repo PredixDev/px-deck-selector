@@ -39,7 +39,7 @@ Custom property | Description
     </div>
     <ul id="dropdown" class="dropdown-menu list-bare" hidden>
       <template is="dom-repeat" items="{{decks}}" as="deck">
-        <li on-click="_selectDeck" class="dropdown-menu__item">
+        <li on-click="_selectDeck" class$="dropdown-menu__item {{_isSelected(deck,selectedDeck)}}">
           <span class="truncate" title="{{deck.name}}">{{deck.name}}</span>
         </li>
       </template>
@@ -127,11 +127,10 @@ Custom property | Description
       if (this._isDecks && (this.selectedDeck == null || this.selectedDeck.constructor === Object)) {
         this.set('selectedDeck', this.decks[0]);
       }
-      this.async(function() {
-        Polymer.dom(this.$.dropdown).querySelectorAll('div').forEach(function(item) {
-          this.toggleClass('selected', item.innerText === this.selectedDeck.name, item);
-        }.bind(this));
-      }, 5);
+    },
+
+    _isSelected: function(deck, selectedDeck) {
+      return deck.name === selectedDeck.name ? 'selected' : '';
     },
 
     _toggleDropdown: function(e) {
@@ -148,10 +147,6 @@ Custom property | Description
 
     _selectDeck: function(e) {
       this.set('selectedDeck', e.model.deck);
-      Polymer.dom(this.$.dropdown).querySelectorAll('div').forEach(function(item) {
-        this.toggleClass('selected', false, item);
-      }.bind(this));
-      this.toggleClass('selected', true, e.target);
       this._toggleDropdown(false);
     },
 
