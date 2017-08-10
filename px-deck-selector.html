@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="../px-icon-set/px-icon-set.html" />
 <link rel="import" href="../px-icon-set/px-icon.html" />
+<link rel="import" href="css/px-deck-selector-styles.html">
 
 <!--
 
@@ -9,6 +10,7 @@
     <px-deck-selector decks="[{...}]" selected-deck="{...}"></px-deck-selector>
 
 ### Styling
+
 The following custom properties are available for styling:
 
 Custom property | Description
@@ -23,12 +25,10 @@ Custom property | Description
 `--px-deck-selector-text-color--selected` | Text color for the dropdown item that is selected
 `--px-deck-selector-li-border` | Border color for the separator between decks and actions
 
-
-@demo demo.html
+@element px-deck-selector
+@homepage index.html
+@demo index.html
 -->
-
-<link rel="import" href="css/px-deck-selector-styles.html">
-
 <dom-module id="px-deck-selector">
   <template>
     <style include="px-deck-selector-styles"></style>
