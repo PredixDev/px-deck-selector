@@ -141,7 +141,6 @@ Custom property | Description
     },
 
     _toggleDropdown: function(e) {
-
       this._isDropdownOpen = !this._isDropdownOpen;
       this.toggleClass('visuallyhidden', !this._isDropdownOpen, this.$.dropdown);
       /*
@@ -182,7 +181,7 @@ Custom property | Description
       }
       if (!el.contains(e.target) && !isDropdownText) {
         this._isDropdownOpen = false;
-        el.setAttribute('hidden', true);
+        this.toggleClass('visuallyhidden', true, el);
         document.removeEventListener('mouseup', this.evtHandler, false);
       }
     },
@@ -195,7 +194,7 @@ Custom property | Description
       var el = this.$.dropdown;
       var self = this;
 
-      if (!el.hasAttribute('hidden')) {
+      if (!el.classList.contains('visuallyhidden')) {
         document.addEventListener('mouseup', self.evtHandler = function(e) {
           self._closeMenu(e, el)
         }, false);
