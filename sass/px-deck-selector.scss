@@ -23,7 +23,7 @@
 
 // Component
 
-:host{
+:host > * {
   --iron-icon-height: $inuit-base-font-size;
   --iron-icon-width: $inuit-base-font-size;
 }

@@ -33,11 +33,11 @@ Custom property | Description
   <template>
     <style include="px-deck-selector-styles"></style>
 
-    <div class="dropdown-text actionable actionable--action" on-click="_toggleDropdown" hidden$="{{!_isDecks}}">
+    <div class$="dropdown-text actionable actionable--action {{_hideChevronIfNoDecks(_isDecks)}}" on-click="_toggleDropdown">
       <span class="truncate" title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
       <px-icon icon="px-utl:chevron"></px-icon>
     </div>
-    <ul id="dropdown" class="dropdown-menu list-bare" hidden>
+    <ul id="dropdown" class="dropdown-menu list-bare visuallyhidden">
       <template is="dom-repeat" items="{{decks}}" as="deck">
         <li on-click="_selectDeck" class$="dropdown-menu__item {{_isSelected(deck,selectedDeck)}}">
           <span class="truncate" title="{{deck.name}}">{{deck.name}}</span>
@@ -89,6 +89,7 @@ Custom property | Description
       },
       _isDecks: {
         type: Boolean,
+        computed: '_computeIsDecks(decks)',
         value: false
       },
       /**
@@ -122,11 +123,17 @@ Custom property | Description
     },
 
     _setDecks: function() {
-      this.set('_isDecks', this.decks && this.decks.length > 0);
-
       if (this._isDecks && (this.selectedDeck == null || this.selectedDeck.constructor === Object)) {
         this.set('selectedDeck', this.decks[0]);
       }
+    },
+
+    _computeIsDecks: function(decks){
+      return (decks && decks.length > 0);
+    },
+
+    _hideChevronIfNoDecks: function(isDecks){
+      return isDecks ? '' : 'visuallyhidden';
     },
 
     _isSelected: function(deck, selectedDeck) {
@@ -136,7 +143,7 @@ Custom property | Description
     _toggleDropdown: function(e) {
 
       this._isDropdownOpen = !this._isDropdownOpen;
-      this.toggleAttribute('hidden', !this._isDropdownOpen, this.$.dropdown);
+      this.toggleClass('visuallyhidden', !this._isDropdownOpen, this.$.dropdown);
       /*
        * adding event listener to the document when menu is opened
        * */
