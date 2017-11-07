@@ -1,6 +1,6 @@
 {
   "name": "px-deck-selector",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "main": [
     "px-deck-selector.html"
   ],
@@ -27,7 +27,7 @@
   ],
   "dependencies": {
     "polymer": "#1.9 - 2",
-    "px-icon-set": "polymer2.0-preview"
+    "px-icon-set": "^2.1.0"
   },
   "devDependencies": {
     "px-theme": "^3.0.0",
