@@ -1,4 +1,4 @@
-suite('Base Automation Tests for px-app-nav', function(done) {
+suite('Base Automation Tests for px-deck-selector', function(done) {
   let deckFixture;
   setup((done)=>{
     deckFixture = fixture('px-deck-selector-fixture');
