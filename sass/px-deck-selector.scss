@@ -34,6 +34,7 @@ px-icon {
 
 .dropdown-text {
   cursor: pointer;
+  user-select: none;
   margin-left: $inuit-base-font-size;
   display: flex;
   flex-direction: row;

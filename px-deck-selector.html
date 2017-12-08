@@ -33,18 +33,18 @@ Custom property | Description
   <template>
     <style include="px-deck-selector-styles"></style>
 
-    <div id="trigger" class$="dropdown-text actionable actionable--action [[_hideChevronIfNoDecks(decks)]]" on-click="_handleTriggerTapped">
+    <div id="trigger" class$="dropdown-text actionable actionable--action [[_hideChevronIfNoDecks(decks)]]" on-tap="_handleTriggerTapped">
       <span class="truncate" title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
       <px-icon icon="px-utl:chevron"></px-icon>
     </div>
     <ul id="dropdown" class$="dropdown-menu list-bare [[_getDropdownClassName(_isDropdownOpen)]]">
       <template is="dom-repeat" items="{{decks}}" as="deck">
-        <li on-click="_handleDeckTapped" class$="dropdown-menu__item [[_isDeckSelected(deck,selectedDeck)]]">
+        <li on-tap="_handleDeckTapped" class$="dropdown-menu__item [[_isDeckSelected(deck,selectedDeck)]]">
           <span class="truncate" title="{{deck.name}}">{{deck.name}}</span>
         </li>
       </template>
       <template is="dom-if" if="{{configOptions.edit}}">
-        <li on-click="_handleDeckEventTapped" class="dropdown-menu__item dropdown-menu__item--deck-editor">
+        <li on-tap="_handleDeckEventTapped" class="dropdown-menu__item dropdown-menu__item--deck-editor">
           <span class="truncate" title="{{configOptions.actionType}}">{{configOptions.actionType}}</span>
         </li>
       </template>
@@ -151,7 +151,7 @@ Custom property | Description
     _handleDocumentTapped: function(e) {
       const path = Polymer.dom(e).path;
       const trigger = this.$.trigger;
-      const isTriggerInPath = path.filter(el => el === trigger).length > -1;
+      const isTriggerInPath = path.filter(el => el === trigger).length > 0;
       if (!isTriggerInPath) {
         this._isDropdownOpen = false;
       }

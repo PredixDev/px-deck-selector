@@ -9,7 +9,7 @@
         {
           "name": "decks",
           "type": "Array",
-          "description": "Array of deck objects to display. The first deck will always be selected initially.\nEach object needs a `name` and `url` property.\n\n     [\n         {id: 1, name: 'First Deck', url: '/deck1'},\n         {id: 2, name: 'Second Deck', url: '/deck2'},\n         {id: 3, name: 'Third Deck', url: '/deck3'}\n     ]",
+          "description": "Array of deck objects to display. The first deck will always be selected initially.\nEach object needs a `name` and `url` property.\n\n```\n[\n  {id: 1, name: 'First Deck', url: '/deck1'},\n  {id: 2, name: 'Second Deck', url: '/deck2'},\n  {id: 3, name: 'Third Deck', url: '/deck3'}\n]\n```",
           "privacy": "public",
           "sourceRange": {
             "start": {
@@ -23,7 +23,7 @@
           },
           "metadata": {
             "polymer": {
-              "observer": "\"_setDecks\""
+              "observer": "\"_selectFirstDeck\""
             }
           },
           "defaultValue": "[]"
@@ -51,59 +51,39 @@
           "defaultValue": "{}"
         },
         {
-          "name": "_isDecks",
+          "name": "_isDropdownOpen",
           "type": "boolean",
-          "description": "",
+          "description": "Set to true to open the dropdown and false to close it.",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 89,
+              "line": 93,
               "column": 6
             },
             "end": {
-              "line": 93,
+              "line": 97,
               "column": 7
             }
           },
           "metadata": {
             "polymer": {
-              "readOnly": true
+              "observer": "\"_handleDropdownOpenedChanged\""
             }
-          },
-          "defaultValue": "false"
-        },
-        {
-          "name": "_isDropdownOpen",
-          "type": "boolean",
-          "description": "Needed for IE...",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 97,
-              "column": 6
-            },
-            "end": {
-              "line": 100,
-              "column": 7
-            }
-          },
-          "metadata": {
-            "polymer": {}
           },
           "defaultValue": "false"
         },
         {
           "name": "configOptions",
           "type": "Object",
-          "description": "Config options appear after the list of decks in a separate section, and can be used by an application\nto add or remove decks from the menu, for example. The object should contain an `actionType` which is the\ntext which will be displayed in the menu, and an `eventType` which will be included in evt.detail of\nthe `deckEvent` event that is fired when the option is selected. Applications should listen for the `deckEvent`\nevent and handle it accordingly (by displaying a modal for adding/removing decks, for example).\n\n     {\n         edit : true,\n         actionType : \"Add Dashboard\",\n         eventType : \"addDashboard\"\n     }",
+          "description": "Config options appear after the list of decks in a separate section, and can be used by an application\nto add or remove decks from the menu, for example. The object should contain an `actionType` which is the\ntext which will be displayed in the menu, and an `eventType` which will be included in evt.detail of\nthe `deckEvent` event that is fired when the option is selected. Applications should listen for the `deckEvent`\nevent and handle it accordingly (by displaying a modal for adding/removing decks, for example).\n\n```\n{\n  edit : true,\n  actionType : \"Add Dashboard\",\n  eventType : \"addDashboard\"\n}\n```",
           "privacy": "public",
           "sourceRange": {
             "start": {
-              "line": 115,
+              "line": 114,
               "column": 6
             },
             "end": {
-              "line": 121,
+              "line": 120,
               "column": 7
             }
           },
@@ -117,16 +97,16 @@
       ],
       "methods": [
         {
-          "name": "_setDecks",
+          "name": "created",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 124,
+              "line": 123,
               "column": 4
             },
             "end": {
-              "line": 128,
+              "line": 125,
               "column": 5
             }
           },
@@ -134,8 +114,8 @@
           "params": []
         },
         {
-          "name": "_computeIsDecks",
-          "description": "",
+          "name": "_selectFirstDeck",
+          "description": "Always selects the first deck when `decks` are defined.",
           "privacy": "protected",
           "sourceRange": {
             "start": {
@@ -143,7 +123,7 @@
               "column": 4
             },
             "end": {
-              "line": 132,
+              "line": 134,
               "column": 5
             }
           },
@@ -155,37 +135,142 @@
           ]
         },
         {
-          "name": "_hideChevronIfNoDecks",
+          "name": "_handleDropdownOpenedChanged",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 134,
+              "line": 136,
               "column": 4
             },
             "end": {
-              "line": 136,
+              "line": 143,
               "column": 5
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "isDecks"
+              "name": "opened"
             }
           ]
         },
         {
-          "name": "_isSelected",
+          "name": "_handleDocumentTapped",
+          "description": "When the user taps somewhere else on the page when the dropdown is opened,\nclose the dropdown. If the user taps on the trigger do nothing and\nlet the trigger handler close the dropdown.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 150,
+              "column": 4
+            },
+            "end": {
+              "line": 157,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ]
+        },
+        {
+          "name": "_handleTriggerTapped",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 138,
+              "line": 159,
               "column": 4
             },
             "end": {
-              "line": 140,
+              "line": 161,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ]
+        },
+        {
+          "name": "_handleDeckTapped",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 163,
+              "column": 4
+            },
+            "end": {
+              "line": 166,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ]
+        },
+        {
+          "name": "_handleDeckEventTapped",
+          "description": "Fires the event \"deckEvent\" where evt.detail will contain the eventType\nspecified in configOptions.",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 172,
+              "column": 4
+            },
+            "end": {
+              "line": 175,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "e"
+            }
+          ]
+        },
+        {
+          "name": "_hideChevronIfNoDecks",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 184,
+              "column": 4
+            },
+            "end": {
+              "line": 188,
+              "column": 5
+            }
+          },
+          "metadata": {},
+          "params": [
+            {
+              "name": "decks"
+            }
+          ]
+        },
+        {
+          "name": "_isDeckSelected",
+          "description": "",
+          "privacy": "protected",
+          "sourceRange": {
+            "start": {
+              "line": 190,
+              "column": 4
+            },
+            "end": {
+              "line": 192,
               "column": 5
             }
           },
@@ -200,108 +285,25 @@
           ]
         },
         {
-          "name": "_toggleDropdown",
+          "name": "_getDropdownClassName",
           "description": "",
           "privacy": "protected",
           "sourceRange": {
             "start": {
-              "line": 142,
+              "line": 194,
               "column": 4
             },
             "end": {
-              "line": 151,
+              "line": 196,
               "column": 5
             }
           },
           "metadata": {},
           "params": [
             {
-              "name": "e"
+              "name": "opened"
             }
           ]
-        },
-        {
-          "name": "_selectDeck",
-          "description": "",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 153,
-              "column": 4
-            },
-            "end": {
-              "line": 156,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "e"
-            }
-          ]
-        },
-        {
-          "name": "_triggerDeckEvent",
-          "description": "Fires the event \"deckEvent\" where evt.detail will contain the eventType specified in configOptions.",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 161,
-              "column": 4
-            },
-            "end": {
-              "line": 164,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "e"
-            }
-          ]
-        },
-        {
-          "name": "_closeMenu",
-          "description": "Called when the user clicks outside of the menu.",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 169,
-              "column": 4
-            },
-            "end": {
-              "line": 186,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": [
-            {
-              "name": "e"
-            },
-            {
-              "name": "el"
-            }
-          ]
-        },
-        {
-          "name": "_handleDocumentClick",
-          "description": "Adding and removing event listener on the document",
-          "privacy": "protected",
-          "sourceRange": {
-            "start": {
-              "line": 191,
-              "column": 4
-            },
-            "end": {
-              "line": 203,
-              "column": 5
-            }
-          },
-          "metadata": {},
-          "params": []
         }
       ],
       "staticMethods": [],
@@ -318,7 +320,7 @@
           "column": 10
         },
         "end": {
-          "line": 217,
+          "line": 197,
           "column": 3
         }
       },
@@ -327,7 +329,7 @@
       "attributes": [
         {
           "name": "decks",
-          "description": "Array of deck objects to display. The first deck will always be selected initially.\nEach object needs a `name` and `url` property.\n\n     [\n         {id: 1, name: 'First Deck', url: '/deck1'},\n         {id: 2, name: 'Second Deck', url: '/deck2'},\n         {id: 3, name: 'Third Deck', url: '/deck3'}\n     ]",
+          "description": "Array of deck objects to display. The first deck will always be selected initially.\nEach object needs a `name` and `url` property.\n\n```\n[\n  {id: 1, name: 'First Deck', url: '/deck1'},\n  {id: 2, name: 'Second Deck', url: '/deck2'},\n  {id: 3, name: 'Third Deck', url: '/deck3'}\n]\n```",
           "sourceRange": {
             "start": {
               "line": 71,
@@ -359,14 +361,14 @@
         },
         {
           "name": "config-options",
-          "description": "Config options appear after the list of decks in a separate section, and can be used by an application\nto add or remove decks from the menu, for example. The object should contain an `actionType` which is the\ntext which will be displayed in the menu, and an `eventType` which will be included in evt.detail of\nthe `deckEvent` event that is fired when the option is selected. Applications should listen for the `deckEvent`\nevent and handle it accordingly (by displaying a modal for adding/removing decks, for example).\n\n     {\n         edit : true,\n         actionType : \"Add Dashboard\",\n         eventType : \"addDashboard\"\n     }",
+          "description": "Config options appear after the list of decks in a separate section, and can be used by an application\nto add or remove decks from the menu, for example. The object should contain an `actionType` which is the\ntext which will be displayed in the menu, and an `eventType` which will be included in evt.detail of\nthe `deckEvent` event that is fired when the option is selected. Applications should listen for the `deckEvent`\nevent and handle it accordingly (by displaying a modal for adding/removing decks, for example).\n\n```\n{\n  edit : true,\n  actionType : \"Add Dashboard\",\n  eventType : \"addDashboard\"\n}\n```",
           "sourceRange": {
             "start": {
-              "line": 115,
+              "line": 114,
               "column": 6
             },
             "end": {
-              "line": 121,
+              "line": 120,
               "column": 7
             }
           },
