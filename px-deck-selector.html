@@ -33,18 +33,18 @@ Custom property | Description
   <template>
     <style include="px-deck-selector-styles"></style>
 
-    <div class$="dropdown-text actionable actionable--action {{_hideChevronIfNoDecks(_isDecks)}}" on-click="_toggleDropdown">
+    <div id="trigger" class$="dropdown-text actionable actionable--action [[_hideChevronIfNoDecks(decks)]]" on-click="_handleTriggerTapped">
       <span class="truncate" title={{selectedDeck.name}}>{{selectedDeck.name}}</span>
       <px-icon icon="px-utl:chevron"></px-icon>
     </div>
-    <ul id="dropdown" class="dropdown-menu list-bare visuallyhidden">
+    <ul id="dropdown" class$="dropdown-menu list-bare [[_getDropdownClassName(_isDropdownOpen)]]">
       <template is="dom-repeat" items="{{decks}}" as="deck">
-        <li on-click="_selectDeck" class$="dropdown-menu__item {{_isSelected(deck,selectedDeck)}}">
+        <li on-click="_handleDeckTapped" class$="dropdown-menu__item [[_isDeckSelected(deck,selectedDeck)]]">
           <span class="truncate" title="{{deck.name}}">{{deck.name}}</span>
         </li>
       </template>
       <template is="dom-if" if="{{configOptions.edit}}">
-        <li on-click="_triggerDeckEvent" class="dropdown-menu__item dropdown-menu__item--deck-editor">
+        <li on-click="_handleDeckEventTapped" class="dropdown-menu__item dropdown-menu__item--deck-editor">
           <span class="truncate" title="{{configOptions.actionType}}">{{configOptions.actionType}}</span>
         </li>
       </template>
@@ -54,27 +54,27 @@ Custom property | Description
 
 <script>
   Polymer({
-
     is: 'px-deck-selector',
 
     properties: {
-
       /**
        * Array of deck objects to display. The first deck will always be selected initially.
        * Each object needs a `name` and `url` property.
        *
-       *      [
-       *          {id: 1, name: 'First Deck', url: '/deck1'},
-       *          {id: 2, name: 'Second Deck', url: '/deck2'},
-       *          {id: 3, name: 'Third Deck', url: '/deck3'}
-       *      ]
+       * ```
+       * [
+       *   {id: 1, name: 'First Deck', url: '/deck1'},
+       *   {id: 2, name: 'Second Deck', url: '/deck2'},
+       *   {id: 3, name: 'Third Deck', url: '/deck3'}
+       * ]
+       * ```
        */
       decks: {
         type: Array,
         value: function() {
           return [];
         },
-        observer: '_setDecks'
+        observer: '_selectFirstDeck'
       },
 
       /**
@@ -87,32 +87,31 @@ Custom property | Description
         },
         notify: true
       },
-      _isDecks: {
-        type: Boolean,
-        computed: '_computeIsDecks(decks)',
-        value: false
-      },
+
       /**
-       * Needed for IE...
+       * Set to true to open the dropdown and false to close it.
        */
       _isDropdownOpen: {
         type: Boolean,
-        value: false
+        value: false,
+        observer: '_handleDropdownOpenedChanged'
       },
-      /*
+
+      /**
        * Config options appear after the list of decks in a separate section, and can be used by an application
        * to add or remove decks from the menu, for example. The object should contain an `actionType` which is the
        * text which will be displayed in the menu, and an `eventType` which will be included in evt.detail of
        * the `deckEvent` event that is fired when the option is selected. Applications should listen for the `deckEvent`
        * event and handle it accordingly (by displaying a modal for adding/removing decks, for example).
        *
-       *      {
-       *          edit : true,
-       *          actionType : "Add Dashboard",
-       *          eventType : "addDashboard"
-       *      }
-       *
-       **/
+       * ```
+       * {
+       *   edit : true,
+       *   actionType : "Add Dashboard",
+       *   eventType : "addDashboard"
+       * }
+       * ```
+       */
       configOptions: {
         type: Object,
         value: function() {
@@ -122,98 +121,79 @@ Custom property | Description
       }
     },
 
-    _setDecks: function() {
-      if (this._isDecks && (this.selectedDeck == null || this.selectedDeck.constructor === Object)) {
-        this.set('selectedDeck', this.decks[0]);
+    created: function() {
+      this._handleDocumentTapped = this._handleDocumentTapped.bind(this);
+    },
+
+    /**
+     * Always selects the first deck when `decks` are defined.
+     */
+    _selectFirstDeck: function(decks) {
+      if (Array.isArray(decks) && decks.length > 0) {
+        this.selectedDeck = decks[0];
       }
     },
 
-    _computeIsDecks: function(decks){
-      return (decks && decks.length > 0);
+    _handleDropdownOpenedChanged: function(opened) {
+      if (opened) {
+        document.addEventListener('click', this._handleDocumentClicked, false);
+      }
+      else {
+        document.removeEventListener('click', this._handleDocumentClicked);
+      }
     },
 
-    _hideChevronIfNoDecks: function(isDecks){
-      return isDecks ? '' : 'visuallyhidden';
+    /**
+     * When the user taps somewhere else on the page when the dropdown is opened,
+     * close the dropdown. If the user taps on the trigger do nothing and
+     * let the trigger handler close the dropdown.
+     */
+    _handleDocumentTapped: function(e) {
+      const path = Polymer.dom(e).path;
+      const trigger = this.$.trigger;
+      const isTriggerInPath = path.filter(el => el === trigger).length > -1;
+      if (!isTriggerInPath) {
+        this._isDropdownOpen = false;
+      }
     },
 
-    _isSelected: function(deck, selectedDeck) {
+    _handleTriggerTapped: function(e) {
+      this._isDropdownOpen = !this._isDropdownOpen;
+    },
+
+    _handleDeckTapped: function(e) {
+      this.set('selectedDeck', e.model.deck);
+      this._isDropdownOpen = false;
+    },
+
+    /**
+     * Fires the event "deckEvent" where evt.detail will contain the eventType
+     * specified in configOptions.
+     */
+    _handleDeckEventTapped: function(e) {
+      this.fire('deckEvent', e.model.configOptions.eventType);
+      this._isDropdownOpen = false;
+    },
+    /**
+     * Event fired when the option specified in configOptions is selected from
+     * the dropdown. `evt.detail` will contain the eventType specified in
+     * configOptions.
+     *
+     * @event deckEvent
+     */
+
+    _hideChevronIfNoDecks: function(decks) {
+      if (!Array.isArray(decks) || decks.length === 0) {
+        return 'visuallyhidden';
+      }
+    },
+
+    _isDeckSelected: function(deck, selectedDeck) {
       return deck.name === selectedDeck.name ? 'selected' : '';
     },
 
-    _toggleDropdown: function(e) {
-      this._isDropdownOpen = !this._isDropdownOpen;
-      this.toggleClass('visuallyhidden', !this._isDropdownOpen, this.$.dropdown);
-      /*
-       * adding event listener to the document when menu is opened
-       * */
-      if (e) {
-        this._handleDocumentClick();
-      }
-    },
-
-    _selectDeck: function(e) {
-      this.set('selectedDeck', e.model.deck);
-      this._toggleDropdown(false);
-    },
-
-    /*
-     *  Fires the event "deckEvent" where evt.detail will contain the eventType specified in configOptions.
-     * */
-    _triggerDeckEvent: function(e) {
-      this.fire('deckEvent', e.model.configOptions.eventType);
-      this._toggleDropdown(false);
-    },
-
-    /*
-     * Called when the user clicks outside of the menu.
-     * */
-    _closeMenu: function(e, el) {
-      var evt = Polymer.dom(e),
-          path = evt.path,
-          length = path.length,
-          isDropdownText = false,
-          i;
-      for(i=0; i<length; i++) {
-        if(path[i].classList && path[i].classList.contains('dropdown-text')) {
-          isDropdownText = true;
-          break;
-        }
-      }
-      if (!el.contains(e.target) && !isDropdownText) {
-        this._isDropdownOpen = false;
-        this.toggleClass('visuallyhidden', true, el);
-        document.removeEventListener('mouseup', this.evtHandler, false);
-      }
-    },
-
-    /*
-     * Adding and removing event listener on the document
-     * */
-    _handleDocumentClick: function() {
-
-      var el = this.$.dropdown;
-      var self = this;
-
-      if (!el.classList.contains('visuallyhidden')) {
-        document.addEventListener('mouseup', self.evtHandler = function(e) {
-          self._closeMenu(e, el)
-        }, false);
-      } else {
-        document.removeEventListener('mouseup', self.evtHandler, false);
-      }
+    _getDropdownClassName: function(opened) {
+      return opened ? '' : 'visuallyhidden';
     }
-    /**
-    * Event that is fired when the user changes the selected deck in the dropdown.
-    * `evt.detail.value` will contain the object corresponding to the selected deck.
-    *
-    * @event selected-deck-changed
-    **/
-
-    /**
-    * Event fired when the option specified in configOptions is selected from the dropdown.
-    * `evt.detail` will contain the eventType specified in configOptions.
-    *
-    * @event deckEvent
-    **/
   });
 </script>
