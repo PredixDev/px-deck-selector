@@ -1,3 +1,10 @@
+v2.1.2
+==================
+* Refactor code to fix race conditions in opening/closing the dropdown
+  in Polymer 2.x
+* Refactor internal code structure to make dropdown opening/closing more
+  centralized and easier to understand
+
 v2.1.1
 ==================
 * update deps
