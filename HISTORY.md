@@ -1,3 +1,7 @@
+v2.1.3
+==================
+* fixing demo pages for IE11
+
 v2.1.2
 ==================
 * Refactor code to fix race conditions in opening/closing the dropdown
