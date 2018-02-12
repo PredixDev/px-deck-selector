@@ -1,3 +1,7 @@
+v2.1.4
+==================
+* reduce icon-set imports
+
 v2.1.3
 ==================
 * fixing demo pages for IE11
