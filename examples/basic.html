@@ -26,65 +26,92 @@ limitations under the License.
       Fast bootstrapping of the webcomponents-lite library. Only loads the library
       if the browser doesn't natively support web components.
   -->
-  <script type="text/javascript">
-  (function() {
-    'use strict';
+  <script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import 'px-theme/px-theme-styles.js';
+import '../px-deck-selector.js';
 
-    var onload = function() {
-      // For native Imports, manually fire WebComponentsReady so user code
-      // can use the same code path for native and polyfill'd imports.
-      if (!window.HTMLImports) {
-        document.dispatchEvent(
-          new CustomEvent('WebComponentsReady', {bubbles: true})
-        );
-      }
-    };
-
-    var webComponentsSupported = (
-      'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
+var onload = function() {
+  // For native Imports, manually fire WebComponentsReady so user code
+  // can use the same code path for native and polyfill'd imports.
+  if (!window.HTMLImports) {
+    document.dispatchEvent(
+      new CustomEvent('WebComponentsReady', {bubbles: true})
     );
+  }
+};
 
-    if (!webComponentsSupported) {
-      var script = document.createElement('script');
-      script.async = true;
-      script.src = '../webcomponentsjs/webcomponents-lite.min.js';
-      script.onload = onload;
-      document.head.appendChild(script);
-    } else {
-      onload();
-    }
-  })();
-  </script>
+var webComponentsSupported = (
+  'registerElement' in document && 'import' in document.createElement('link') && 'content' in document.createElement('template')
+);
+
+if (!webComponentsSupported) {
+  var script = document.createElement('script');
+  script.async = true;
+  script.src = '../webcomponentsjs/webcomponents-lite.min.js';
+  script.onload = onload;
+  document.head.appendChild(script);
+} else {
+  onload();
+}
+</script>
   <!-- Import Polymer -->
-  <link rel="import" href="../../polymer/polymer.html"/>
+  <script type="module" src="../../@polymer/polymer/polymer-legacy.js"></script>
   <!-- Import default Predix Design System theme -->
-  <link rel="import" href="../../px-theme/px-theme-styles.html"/>
-  <custom-style>
+  <script type="module" src="../../px-theme/px-theme-styles.js"></script>
+  <!-- FIXME(polymer-modulizer):
+        These imperative modules that innerHTML your HTML are
+        a hacky way to be sure that any mixins in included style
+        modules are ready before any elements that reference them are
+        instantiated, otherwise the CSS @apply mixin polyfill won't be
+        able to expand the underlying CSS custom properties.
+        See: https://github.com/Polymer/polymer-modulizer/issues/154
+        -->
+    <script type="module">
+const $_documentContainer = document.createElement('template');
+
+$_documentContainer.innerHTML = `<custom-style>
     <style is="custom-style" include="px-theme-styles"></style>
-  </custom-style>
+  </custom-style>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
   <!--Import component -->
-  <link rel="import" href="../px-deck-selector.html"/>
+  <script type="module">
+const $_documentContainer = document.createElement('template');
+$_documentContainer.innerHTML = `<link rel="import" href="../px-deck-selector.html">`;
+document.body.appendChild($_documentContainer.content);
+</script>/script>
 </head>
 <body>
-   <px-deck-selector>
-   </px-deck-selector>
+   <script type="module">
+const $_documentContainer = document.createElement('template');
 
-   <script>
-     const deckSelector = document.querySelector('px-deck-selector');
-     deckSelector.decks = [
-       {
-         name: "First Deck",
-         url: "/deck1"
-       },
-       {
-         name: "Second Deck",
-         url: "/deck2"
-       },
-       {
-         name: "Third Deck",
-         url: "/deck3"
-       }
-     ]
-   </script>
+$_documentContainer.innerHTML = `<px-deck-selector>
+   </px-deck-selector>`;
+
+document.body.appendChild($_documentContainer.content);
+</script>
+
+   <script type="module">
+import '@polymer/polymer/polymer-legacy.js';
+import 'px-theme/px-theme-styles.js';
+import '../px-deck-selector.js';
+const deckSelector = document.querySelector('px-deck-selector');
+deckSelector.decks = [
+  {
+    name: "First Deck",
+    url: "/deck1"
+  },
+  {
+    name: "Second Deck",
+    url: "/deck2"
+  },
+  {
+    name: "Third Deck",
+    url: "/deck3"
+  }
+]
+</script>
 </body>
 </html>
